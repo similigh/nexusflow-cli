@@ -63,6 +63,38 @@ repositories:
     repo: "nexusflow-cli"
     enabled: true
     similarity_threshold: 0.65
+    transfer_rules:
+      # Documentation issues go to docs
+      - match:
+          title_contains: ["documentation", "docs", "help text", "man page", "usage example"]
+        target: "similigh/nexusflow-docs"
+        priority: 1
+
+      # Core server issues go to core
+      - match:
+          title_contains: ["server bug", "gateway", "memory leak", "TLS", "WebSocket", "plugin", "rate limit"]
+        target: "similigh/nexusflow-core"
+        priority: 2
+      - match:
+          body_contains: ["server crash", "gateway error", "connection pool", "runtime panic", "plugin system"]
+        target: "similigh/nexusflow-core"
+        priority: 3
+
+      # VS Code issues go to vscode
+      - match:
+          title_contains: ["VS Code", "VSCode", "extension", "IntelliSense"]
+        target: "similigh/nexusflow-vscode"
+        priority: 4
+
+      # SDK issues go to SDK
+      - match:
+          title_contains: ["SDK", "Python", "TypeScript", "Go client", "client library"]
+        target: "similigh/nexusflow-sdk"
+        priority: 5
+      - match:
+          body_contains: ["import nexusflow", "from nexusflow", "nexusflow.NewClient", "SDK"]
+        target: "similigh/nexusflow-sdk"
+        priority: 6
 
 rate_limits:
   github_requests_per_second: 10
